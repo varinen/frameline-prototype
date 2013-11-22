@@ -6,7 +6,7 @@
 // 'test/spec/{,*/}*.js'
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
-
+var dirname = (new Date()).toISOString();
 module.exports = function (grunt) {
 
   // Load grunt tasks automatically
@@ -14,6 +14,8 @@ module.exports = function (grunt) {
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
+
+
 
   // Define the configuration for all the tasks
   grunt.initConfig({
@@ -316,6 +318,45 @@ module.exports = function (grunt) {
         'htmlmin'
       ]
     },
+    secret: grunt.file.readJSON('secret.json'),
+    sshconfig: {
+        production: {
+            host: '<%= secret.host %>',
+            username: '<%= secret.username %>',
+            password: '<%= secret.password %>',
+            port: 22,
+            path: "/var/www/frameline.divisionlab.com/current/"
+        }
+
+    },
+    sshexec: {
+        'make-release-dir': {
+            command: "mkdir -m 777 -p /var/www/frameline.divisionlab.com/releases/" + dirname + "/logs",
+            options: {
+                config: 'production'
+            }
+        },
+        'update-symlinks': {
+            command: "rm -rf /var/www/frameline.divisionlab.com/current && ln -s /var/www/frameline.divisionlab.com/releases/" + dirname + " /var/www/frameline.divisionlab.com/current",
+            options: {
+                config: 'production'
+            }
+        }
+    },
+
+    // our sftp file copy config
+    sftp: {
+        deploy: {
+            files: {
+                "./": "dist/**"
+            },
+            options: {
+                config: 'production',
+                srcBasePath: "dist/",
+                createDirectories: true
+            }
+        }
+    },
 
     // By default, your `index.html`'s <!-- Usemin block --> will take care of
     // minification. These next options are pre-configured if you do not wish
@@ -400,4 +441,12 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+  grunt.loadNpmTasks('grunt-ssh');
+
+    grunt.registerTask('deploy', [
+        'sshexec:make-release-dir',
+        'sshexec:update-symlinks',
+        'sftp:deploy'
+    ]);
 };
