@@ -325,38 +325,38 @@ module.exports = function (grunt) {
             username: '<%= secret.username %>',
             password: '<%= secret.password %>',
             port: 22,
-            path: "/var/www/frameline.divisionlab.com/current/"
-        }
+            path: '/var/www/frameline.divisionlab.com/current/'
+          }
 
-    },
-    sshexec: {
-        'make-release-dir': {
-            command: "mkdir -m 777 -p /var/www/frameline.divisionlab.com/releases/" + dirname + "/logs",
-            options: {
-                config: 'production'
-            }
         },
-        'update-symlinks': {
-            command: "rm -rf /var/www/frameline.divisionlab.com/current && ln -s /var/www/frameline.divisionlab.com/releases/" + dirname + " /var/www/frameline.divisionlab.com/current",
+        sshexec: {
+          'make-release-dir': {
+            command: 'mkdir -m 777 -p /var/www/frameline.divisionlab.com/releases/' + dirname + '/logs',
             options: {
                 config: 'production'
+              }
+            },
+            'update-symlinks': {
+              command: 'rm -rf /var/www/frameline.divisionlab.com/current && ln -s /var/www/frameline.divisionlab.com/releases/' + dirname + ' /var/www/frameline.divisionlab.com/current',
+              options: {
+                config: 'production'
+              }
             }
-        }
-    },
+          },
 
     // our sftp file copy config
-    sftp: {
-        deploy: {
-            files: {
-                "./": "dist/**"
-            },
-            options: {
+          sftp: {
+            deploy: {
+              files: {
+                './': 'dist/**'
+              },
+              options: {
                 config: 'production',
-                srcBasePath: "dist/",
+                srcBasePath: 'dist/',
                 createDirectories: true
+              }
             }
-        }
-    },
+          },
 
     // By default, your `index.html`'s <!-- Usemin block --> will take care of
     // minification. These next options are pre-configured if you do not wish
@@ -385,13 +385,13 @@ module.exports = function (grunt) {
     // },
 
     // Test settings
-    karma: {
-      unit: {
-        configFile: 'karma.conf.js',
-        singleRun: true
-      }
-    }
-  });
+          karma: {
+            unit: {
+              configFile: 'karma.conf.js',
+              singleRun: true
+            }
+          }
+        });
 
 
   grunt.registerTask('serve', function (target) {
@@ -444,9 +444,9 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-ssh');
 
-    grunt.registerTask('deploy', [
-        'sshexec:make-release-dir',
-        'sshexec:update-symlinks',
-        'sftp:deploy'
-    ]);
+  grunt.registerTask('deploy', [
+    'sshexec:make-release-dir',
+    'sshexec:update-symlinks',
+    'sftp:deploy'
+  ]);
 };
