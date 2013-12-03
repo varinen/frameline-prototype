@@ -448,5 +448,5 @@ module.exports = function (grunt) {
     'sshexec:make-release-dir',
     'sshexec:update-symlinks',
     'sftp:deploy'
-]);
+  ]);
 };
