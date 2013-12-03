@@ -5,7 +5,7 @@ angular.module('angularApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'ytdirectives'
+  'playerService'
 ])
   .config(function ($routeProvider) {
     $routeProvider
