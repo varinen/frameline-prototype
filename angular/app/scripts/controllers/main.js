@@ -18,7 +18,7 @@ angular.module('angularApp').controller(
     var done = false;
     var onPlayerStateChange = function (event) {
       if (event.data === YT.PlayerState.PLAYING && !done) {
-        setTimeout(callPlayer(playerElementId, 'stopVideo'), 6000);
+        setTimeout(function() {callPlayer(playerElementId, 'stopVideo');}, '6000');
         done = true;
       }
     };
