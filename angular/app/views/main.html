@@ -10,8 +10,27 @@
 <div id="player"></div>
 
         <div class="controls">
-            <input type="button" ng-click="pause()" value="Pause" /><br />
-            <input type="button" ng-click="loadVideoById()" value="Load Video" />&nbsp;
+
+            <button type="button" class="btn btn-primary" ng-click="togglePause()">
+                {{pauseState}}
+            </button>
+            <button type="button" class="btn" ng-click="playerControls.stopVideo()">Stop</button>
+            <br />
+            <input type="button" ng-click="playerControls.loadVideoById(loadVideo)" value="Load Video" />&nbsp;
             <input type="text" ng-model="loadVideo.id" />&nbsp;
             <input type="text" ng-model="loadVideo.quality"/>
+            <br>
+            Update quality:
+            <div class="dropdown btn">
+                <div id="collectiondropDown" class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" >
+                    <span>{{videoQualities[loadVideo.quality]}}</span>
+                    <b class="caret"></b>
+                </div>
+
+                <ul id="dropDownUL" class="dropdown-menu pull-left" role="menu" aria-labelledby="dLabel">
+                    <li ng-repeat="videoQuality in videoQualities" ng-click="selectQuality(videoQuality)">{{videoQuality}}</li>
+                </ul>
+            </div>
+
+
         </div>
