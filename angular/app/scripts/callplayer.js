@@ -9,6 +9,7 @@
  * @param String func     Desired function to call, eg. "playVideo"
  *        (Function)      Function to call when the player is ready.
  * @param Array  args     (optional) List of arguments to pass to function func*/
+var jQuery;
 function callPlayer(frameId, func, args) {
   'use strict';
   if (window.jQuery && frameId instanceof jQuery) {
