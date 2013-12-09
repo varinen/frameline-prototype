@@ -7,10 +7,16 @@ angular.module('angularApp').controller(
 
     var playerElementId = 'player';
 
+    $scope.volumeStatus = {'muteLabel': 'Mute', 'label': '0', 'volume': 0};
     $scope.pauseState = 'Pause';
+    $scope.playbackRate = 0;
+    $scope.playbackRates = [0.25, 0.5, 1, 1.5, 2];
+    $scope.currentRate = 1;
+    $scope.duration = 0;
+    $scope.seekToSec = 0;
 
     $scope.loadVideo = {
-      'id': 'Zs6udGtMLS0',
+      'id': 'JtbDDqU3dVI',
       'quality': 'default'
     };
 
@@ -18,6 +24,7 @@ angular.module('angularApp').controller(
     $scope.player = $scope.playerFactory().getPlayer(
       {
         'target': playerElementId,
+        'videoId': 'sdv_TbmA3CM',
         'events':{
           'onReady': function (event) {event.target.playVideo();}
         }
@@ -40,6 +47,36 @@ angular.module('angularApp').controller(
 
       }
     };
+
+    $scope.volumeDown = function() {
+      $scope.playerControls.changeVolume(-10);
+    };
+    $scope.volumeUp = function() {
+      $scope.playerControls.changeVolume(10);
+    };
+
+    $scope.toggleMute = function () {
+      var statusData = $scope.playerControls.getStatusData();
+      if (statusData.volume > 0) {
+        $scope.playerControls.setVolume(0);
+      } else {
+        $scope.playerControls.setVolume(50);
+      }
+    };
+
+    $scope.setPlaybackRate = function(rate) {
+      $scope.currentRate = rate;
+      $scope.playerControls.setPlaybackRate($scope.currentRate);
+    };
+
+    $scope.seekTo = function(sec) {
+      var statusData = $scope.playerControls.getStatusData();
+      if (parseFloat(sec) > statusData.duration) {
+        sec = statusData.duration;
+      }
+      $scope.playerControls.seekTo(sec);
+    };
+
     /**
      * @todo refactor to a service
      */
@@ -68,6 +105,23 @@ angular.module('angularApp').controller(
       $scope.loadVideo.id = statusData.videoData['video_id'];
       $scope.playerControls.loadVideoById($scope.loadVideo);
     };
+    var volumeStatus = $scope.volumeStatus;
+
+    var satusListener = function(statusData) {
+      $scope.volumeStatus.volume = statusData.volume;
+     if ($scope.volumeStatus.volume <= 0) {
+        $scope.volumeStatus.muteLabel = 'Unmute';
+      } else {
+        $scope.volumeStatus.muteLabel = 'Mute';
+      }
+      $scope.volumeStatus.label = $scope.volumeStatus.volume;
+      $scope.playbackRates      = $scope.playerControls.getAvailablePlaybackRates() || $scope.playbackRates;
+      $scope.duration = statusData.duration;
+      
+      $scope.$apply();
+    }
+    //watch for volume / mute
+    $scope.playerControls.addListener(satusListener);
   }
   ]
 );

@@ -8,7 +8,11 @@ playerControlsService.factory('PlayerControls',
     return {
       getControls: function(callPlayer, playerElementId) {
         var statusData = {};
+        var listeners = [];
         return {
+          addListener: function(listener) {
+            listeners.push(listener);
+          },
           startListening: function() {
             callPlayer(playerElementId, 'listening');
             window.addEventListener(
@@ -18,14 +22,17 @@ playerControlsService.factory('PlayerControls',
             );
           },
           interpretMessages: function(e) {
-            var data = JSON.parse(e.data);
+            var i, property, data = JSON.parse(e.data);
             if (
               ((e.origin === 'http://www.youtube.com') || (e.origin === 'https://www.youtube.com')) &&
                 (data.event === 'infoDelivery')) {
-              for (var property in data.info) {
+              for (property  in data.info) {
                 if (data.info.hasOwnProperty(property)) {
                   statusData[property] = data.info[property];
                 }
+              }
+              for (i = 0; i < listeners.length; i += 1) {
+                listeners[i](statusData);
               }
               //console.log(statusData);
             }
@@ -55,6 +62,40 @@ playerControlsService.factory('PlayerControls',
                 loadVideoArgs.quality || 'default'
               ]
             );
+          },
+          setVolume: function(volume) {
+            volume = parseInt(volume);
+            if (volume < 0) {
+              volume = 0;
+            }
+            if (volume > 100) {
+              volume = 100;
+            }
+            callPlayer(playerElementId, 'setVolume', [volume]);
+          },
+
+          changeVolume: function(change) {
+            var volume = statusData.volume + change;
+            this.setVolume(volume);
+          },
+
+          setPlaybackRate: function(rate) {
+            return callPlayer(playerElementId, 'setPlaybackRate', [rate]);
+          },
+
+          getAvailablePlaybackRates: function() {
+            return callPlayer(playerElementId, 'getAvailablePlaybackRates');
+          },
+
+          seekTo: function(sec) {
+            sec = parseFloat(sec);
+            if (parseFloat(sec) > statusData.duration) {
+              sec = statusData.duration;
+            }
+            if (sec < 0) {
+              sec = 0;
+            }
+            callPlayer(playerElementId, 'seekTo', [sec]);
           }
         };
       }

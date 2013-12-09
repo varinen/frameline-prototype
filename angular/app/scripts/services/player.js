@@ -9,7 +9,7 @@ playerService.factory('Player', function() {
         var target  = config.target || 'player';
         var height  = config.height || '390';
         var width   = config.width || '640';
-        var videoId = config.videoId || 'sdv_TbmA3CM';
+        var videoId = config.videoId;
         var events  = config.events || {};
         return new YT.Player(target, {
           height: height,
