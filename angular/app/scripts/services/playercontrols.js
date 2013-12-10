@@ -59,7 +59,7 @@ playerControlsService.factory('PlayerControls',
               [
                 loadVideoArgs.id,
                 loadVideoArgs.startSeconds || 0 ,
-                loadVideoArgs.quality || 'default'
+                loadVideoArgs.quality || 'default',
               ]
             );
           },
@@ -96,6 +96,10 @@ playerControlsService.factory('PlayerControls',
               sec = 0;
             }
             callPlayer(playerElementId, 'seekTo', [sec]);
+          },
+
+          setPlaybackQuality: function(quality) {
+            callPlayer(playerElementId, 'setPlaybackQuality', [quality]);
           }
         };
       }

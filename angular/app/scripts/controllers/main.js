@@ -3,7 +3,7 @@ var callPlayer;
 
 angular.module('angularApp').controller(
   'MainCtrl',
-  ['$scope', 'Player', 'PlayerControls', function ($scope, Player, PlayerControls) {
+  ['$scope', 'Player', 'PlayerControls', 'ScriptParser', function ($scope, Player, PlayerControls, ScriptParser) {
 
     var playerElementId = 'player';
 
@@ -14,6 +14,7 @@ angular.module('angularApp').controller(
     $scope.currentRate = 1;
     $scope.duration = 0;
     $scope.seekToSec = 0;
+    $scope.script = {'result': ''};
 
     $scope.loadVideo = {
       'id': 'JtbDDqU3dVI',
@@ -30,10 +31,12 @@ angular.module('angularApp').controller(
         }
       }
     );
-
     $scope.playerControlFactory = PlayerControls;
     $scope.playerControls = $scope.playerControlFactory().getControls(callPlayer, playerElementId);
     $scope.playerControls.startListening();
+
+    $scope.parserFactory = ScriptParser;
+    $scope.parser = $scope.parserFactory();
 
     $scope.togglePause = function() {
       var statusData = $scope.playerControls.getStatusData();
@@ -102,8 +105,9 @@ angular.module('angularApp').controller(
     $scope.selectQuality = function(quality) {
       $scope.loadVideo.quality = getKeyByValue($scope.videoQualities, quality);
       var statusData = $scope.playerControls.getStatusData();
-      $scope.loadVideo.id = statusData.videoData['video_id'];
-      $scope.playerControls.loadVideoById($scope.loadVideo);
+      //$scope.loadVideo.id = statusData.videoData['video_id'];
+      //$scope.playerControls.loadVideoById($scope.loadVideo);
+      $scope.playerControls.setPlaybackQuality($scope.loadVideo.quality);
     };
     var volumeStatus = $scope.volumeStatus;
 
@@ -117,11 +121,17 @@ angular.module('angularApp').controller(
       $scope.volumeStatus.label = $scope.volumeStatus.volume;
       $scope.playbackRates      = $scope.playerControls.getAvailablePlaybackRates() || $scope.playbackRates;
       $scope.duration = statusData.duration;
-      
+
       $scope.$apply();
     }
     //watch for volume / mute
     $scope.playerControls.addListener(satusListener);
+
+    $scope.parseScript = function(text) {
+      $scope.parser.setScriptText(text);
+      $scope.script.result = $scope.parser.parse(text);
+    }
   }
+
   ]
 );
