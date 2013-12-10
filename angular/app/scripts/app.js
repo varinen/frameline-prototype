@@ -7,7 +7,8 @@ angular.module('angularApp', [
   'ui.bootstrap',
   'ngRoute',
   'playerService',
-  'playerControlsService'
+  'playerControlsService',
+  'scriptParserService'
 ])
   .config(function ($routeProvider) {
     $routeProvider
