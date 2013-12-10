@@ -1,4 +1,4 @@
-<div class="header">
+<div class="header" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
   <ul class="nav nav-pills pull-right">
     <li class="active"><a ng-href="#">Home</a></li>
     <li><a ng-href="#">About</a></li>
@@ -55,6 +55,13 @@
             <div class="well">
                 <input type="button" class="btn" ng-click="playerControls.loadVideoById(loadVideo)" value="Load Video" />&nbsp;
                 <input type="text" ng-model="loadVideo.id" />
+            </div>
+
+            <div class="well">
+                <textarea ng-model="script.text"></textarea>
+                <br>
+                <input class="btn" type="button" ng-click="parseScript(script.text)" value="Parse Script" />
+                <textarea ng-model="script.result"></textarea>
             </div>
 
 
