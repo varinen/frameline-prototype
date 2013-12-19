@@ -8,13 +8,19 @@ angular.module('angularApp', [
   'ngRoute',
   'playerService',
   'playerControlsService',
-  'scriptParserService'
+  'scriptParserService',
+  'commandsDictionaryService',
+  'scriptService'
 ])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
+      })
+      .when('/editor', {
+        templateUrl: 'views/editor.html',
+        controller: 'EditorCtrl'
       })
       .otherwise({
         redirectTo: '/'
