@@ -28,7 +28,7 @@
     <!-- Add your site or application content here -->
     <div class="container">
         <div class="header" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-            <ul class="nav nav-pills pull-right">
+            <ul class="nav nav-pills pull-right" ng-controller="NavbarCtrl">
                 <li ng-class="{active: routeIs('/')}"><a ng-href="#/">Home</a></li>
                 <li ng-class="{active: routeIs('/editor')}"><a ng-href="#/editor">Editor</a></li>
                 <li ng-class="{active: routeIs('/contact')}"><a ng-href="#/">Contact</a></li>
@@ -82,6 +82,7 @@
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/editor.js"></script>
+        <script src="scripts/controllers/navbarcontroller.js"></script>
         <script src="scripts/services/player.js"></script>
         <script src="scripts/services/playercontrols.js"></script>
         <script src="scripts/services/scriptparser.js"></script>
