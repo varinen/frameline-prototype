@@ -18,6 +18,10 @@ angular.module('angularApp', [
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
+      .when('/player', {
+        templateUrl: 'views/player.html',
+        controller: 'PlayerCtrl'
+      })
       .when('/editor', {
         templateUrl: 'views/editor.html',
         controller: 'EditorCtrl'
