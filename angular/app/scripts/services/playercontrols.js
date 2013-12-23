@@ -34,8 +34,12 @@ playerControlsService.factory('PlayerControls',
               for (i = 0; i < listeners.length; i += 1) {
                 listeners[i](statusData);
               }
-              //console.log(statusData);
+              console.log(statusData);
             }
+          },
+          startScript: function(args) {
+            this.loadVideoById({'id': args.id, 'startSeconds': args.startSecond, 'quality': args.quality});
+            this.playVideo();
           },
           getStatusData: function() {
             return statusData;
@@ -49,6 +53,12 @@ playerControlsService.factory('PlayerControls',
           stopVideo: function() {
             callPlayer(playerElementId, 'stopVideo');
           },
+          stop: function() {
+            callPlayer(playerElementId, 'stopVideo');
+          },
+          pauseVideo: function() {
+            callPlayer(playerElementId, 'pauseVideo');
+          },
           pause: function() {
             callPlayer(playerElementId, 'pauseVideo');
           },
@@ -59,12 +69,23 @@ playerControlsService.factory('PlayerControls',
               [
                 loadVideoArgs.id,
                 loadVideoArgs.startSeconds || 0 ,
-                loadVideoArgs.quality || 'default',
+                loadVideoArgs.quality || 'default'
               ]
             );
           },
-          setVolume: function(volume) {
-            volume = parseInt(volume);
+          loadVideo: function(loadVideoArgs) {
+            callPlayer(
+              playerElementId,
+              'loadVideoById',
+              [
+                loadVideoArgs.id,
+                loadVideoArgs.startSeconds || 0 ,
+                loadVideoArgs.quality || 'default'
+              ]
+            );
+          },
+          setVolume: function(args) {
+            var volume = parseInt(args.volume);
             if (volume < 0) {
               volume = 0;
             }
@@ -74,32 +95,32 @@ playerControlsService.factory('PlayerControls',
             callPlayer(playerElementId, 'setVolume', [volume]);
           },
 
-          changeVolume: function(change) {
-            var volume = statusData.volume + change;
-            this.setVolume(volume);
+          changeVolume: function(args) {
+            var volume = statusData.volume + args.change;
+            this.setVolume({'volume': volume});
           },
 
-          setPlaybackRate: function(rate) {
-            return callPlayer(playerElementId, 'setPlaybackRate', [rate]);
+          setPlaybackRate: function(args) {
+            return callPlayer(playerElementId, 'setPlaybackRate', [args.rate]);
           },
 
           getAvailablePlaybackRates: function() {
             return callPlayer(playerElementId, 'getAvailablePlaybackRates');
           },
 
-          seekTo: function(sec) {
-            sec = parseFloat(sec);
-            if (parseFloat(sec) > statusData.duration) {
-              sec = statusData.duration;
+          seekTo: function(args) {
+            var position = parseFloat(args.position);
+            if (parseFloat(position) > statusData.duration) {
+              position = statusData.duration;
             }
-            if (sec < 0) {
-              sec = 0;
+            if (position < 0) {
+              position = 0;
             }
-            callPlayer(playerElementId, 'seekTo', [sec]);
+            callPlayer(playerElementId, 'seekTo', [position]);
           },
 
-          setPlaybackQuality: function(quality) {
-            callPlayer(playerElementId, 'setPlaybackQuality', [quality]);
+          setPlaybackQuality: function(args) {
+            callPlayer(playerElementId, 'setPlaybackQuality', [args.quality]);
           }
         };
       }
