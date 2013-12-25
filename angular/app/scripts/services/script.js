@@ -14,7 +14,7 @@ scriptService.service('script', [
       errorMessage,
       controlsFactory = PlayerControls,
       controls,
-      currentPosition,
+      anchor = 0,
       offset,
       time,
       playingCommands,
@@ -85,7 +85,7 @@ scriptService.service('script', [
        * @param playerElementId
        */
       play: function (playerElementId) {
-        var k, errorMessage, now, statusData;
+        var errorMessage;
         
         //set starting time
         time      = new Date().getTime();
@@ -98,15 +98,16 @@ scriptService.service('script', [
         //start script - must be the first command in the sequence
         var startScript = playingCommands.shift();
         if ('startScript' !== Object.keys(startScript.command).shift()) {
-          errorMessage = 'Expected a "startScript" command in the beginning, instead, '
-            + Object.keys(startScript.command).shift() + ' is detected';
+          errorMessage = 'Expected a "startScript" command in the beginning, instead, ' +
+            Object.keys(startScript.command).shift() + ' is detected';
           console.log(errorMessage);
           throw (errorMessage);
         }
 
         //put a script reference into the closure var script
         script = this;
-        
+
+
         //load video using the startScript command
         controls.startScript(startScript.command.startScript.args);
         
@@ -125,7 +126,7 @@ scriptService.service('script', [
        * @param e event to listen to
        */
       startScheduling: function(e) {
-        var i, property, data = JSON.parse(e.data);
+        var data = JSON.parse(e.data);
         if (
           ((e.origin === 'http://www.youtube.com') || (e.origin === 'https://www.youtube.com')) &&
             (data.event === 'infoDelivery')) {
@@ -134,6 +135,8 @@ scriptService.service('script', [
           // start scheduling if the script is not playing but the video has started loading
           if (!isPlaying && data.info && data.info.videoBytesLoaded && data.info.videoBytesLoaded > 0) {
             isPlaying = true;
+            //set anchor to now - from this position the offset time is calculated
+            anchor = new Date().getTime();
             script.scheduleCommand(data.info);
           }
         }
@@ -148,27 +151,31 @@ scriptService.service('script', [
         if (!command || !command.offset || !command.command) {
           return;
         }
-        var callback = this.executeCommand,
-          schedule   = parseFloat(command.offset),
-          now        = new Date().getTime();
+        var schedule, callback = this.executeCommand,
+          now = new Date().getTime();
 
+        schedule = anchor / 1000 + parseFloat(command.offset)- now / 1000;
+
+        if (schedule < 0) {
+          schedule = 0;
+        }
         console.log((now - time) / 1000 + ': scheduling '+ Object.keys(command.command).shift() + ' ' +
          'schedule: ' + schedule +
           ', current: ' + statusData.currentTime + ', offset: ' + command.offset);
         /**
          * @see http://stackoverflow.com/questions/6425062/passing-functions-to-settimeout-in-a-loop-always-the-last-value
          */
-          setTimeout(
-            (function(commandData) {
-              return function() {callback(commandData);};
-            })(command.command),
-            (schedule) * 1000
-          );
+        setTimeout(
+          (function(commandData) {
+            return function() {callback(commandData);};
+          })(command.command),
+          (schedule) * 1000
+        );
 
       },
 
       /**
-       * Executes a command and schedules the next one in the sequence
+       * Execute a command and schedule the next one in the sequence
        *
        * @param command
        */
@@ -178,7 +185,8 @@ scriptService.service('script', [
         console.log('executing ' + ((now - time) / 1000) + ' '+ commandName + ' ' + JSON.stringify(command[commandName].args));
 
         if (commandName === 'setAnchor') {
-          offset = currentPosition;
+          anchor = new Date().getTime();
+          console.log('Setting anchor to ' + anchor / 1000);
         } else {
           controls[commandName](command[commandName].args);
         }
