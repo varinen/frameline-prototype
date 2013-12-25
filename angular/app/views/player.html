@@ -1,9 +1,15 @@
-<div id="player"></div>
-
-<div class="well">
-    <textarea ng-model="script.text"></textarea>
-    <br>
-    <input class="btn" type="button" ng-click="playScript(script.text)" value="Parse Script" />
-    <textarea ng-model="script.result"></textarea>
+<div style="text-align: center">
+    <div id="player"></div>
 </div>
-
+<div ng-model="errors"></div>
+<div class="well">
+    <textarea cols="105" rows="10" ng-model="script.text"></textarea>
+    <br><br>
+    <input class="btn" type="button" ng-click="playScript(script.text)" value="Parse Script" />
+</div>
+<div class="well">
+    <h4>Log:</h4>
+    <ul>
+        <li ng-repeat="message in commandLog">{{message}}</li>
+    </ul>
+</div>
