@@ -23,9 +23,10 @@ angular.module('angularApp').controller(
       $scope.playerControls.startListening();
 
       $scope.playScript = function(text) {
-        var commands = script.parseText(text);
         $scope.commandLog = [];
+        $scope.errorLog = [];
         script.setScope($scope);
+        var commands = script.parseText(text);
         $scope.script.result = JSON.stringify(commands);
         script.play(playerElementId);
       };

@@ -83,6 +83,9 @@ scriptParserService.factory('ScriptParser',
 
               //recognize the command secquence
               result = commReg.exec(scriptResult[i]);
+              if (!result) {
+                throw new Error('Unrecognizable command line: ' + scriptResult[i]);
+              }
               //result[1] = value of offset
               //result[2] = command name
               //result[3] = arguments list
@@ -99,8 +102,7 @@ scriptParserService.factory('ScriptParser',
                   //parse arguments
                     args = this.parseArgs(result[3]);
                   } catch (e) {
-                  console.log(e + ': command line ' + scriptResult[i]);
-                  throw (e);
+                  throw new Error('Error in script command line ' + scriptResult[i] + ': ' + e.message);
                 }
               }
               command[commandName] = {'args': args};
@@ -108,8 +110,7 @@ scriptParserService.factory('ScriptParser',
                 command = commandsDictionary.validateCommand(command);
                 commands.push({'offset': offset, 'command': command});
               } catch (e) {
-                console.log(e.message);
-                throw (e);
+                throw new Error('Error in script command line ' + scriptResult[i] + ': ' + e.message);
               }
             }
             return commands;
@@ -137,33 +138,43 @@ scriptParserService.factory('ScriptParser',
             }
             return results;
           },
-
+          /**
+           * Parses a JSON object and validates its command data
+           *
+           * @param json a json object
+           *
+           * @returns {Array}
+           */
           parseJson: function (json) {
             var i, j, command = {}, commands = [], commandName;
             json = JSON.parse(json);
             this.setScriptJson(json);
             for (i = 0; i < json.length; i += 1) {
-              try {
-                if (this.isNumber(json[i].offset) !== true) {
-                  j = 1 + i;
-                  throw new Error('Undefined offset in command number ' + j);
-                }
-                command     = commandsDictionary.validateCommand(json[i].command);
-                commandName = Object.keys(json[i].command).shift();
-                if (commands.length === 0 && commandName !== 'startScript') {
-                  var startMissing = 'The first command in the script must be "startScript", instead, ' + commandName + ' was detected';
-                  console.log(startMissing);
-                  throw new Error(startMissing);
-                }
-                commands.push({'offset': json[i].offset, 'command': command});
-              } catch (e) {
-                console.log(e);
-                throw e;
+              //every command must have an offset in seconds
+              if (this.isNumber(json[i].offset) !== true) {
+                j = 1 + i;
+                throw new Error('Undefined offset in command number ' + j);
               }
+              command     = commandsDictionary.validateCommand(json[i].command);
+              commandName = Object.keys(json[i].command).shift();
+              //the first command must be startScript
+              if (commands.length === 0 && commandName !== 'startScript') {
+                var startMissing =
+                  'The first command in the script must be "startScript", instead, ' + commandName + ' was detected';
+                throw new Error(startMissing);
+              }
+              commands.push({'offset': json[i].offset, 'command': command});
             }
             return commands;
           },
 
+          /**
+           * Checks if the parameter is a number
+           *
+           * @param n value to check
+           *
+           * @returns {boolean|*|HTMLElement}
+           */
           isNumber: function (n) {
             return !isNaN(parseFloat(n)) && isFinite(n);
           }

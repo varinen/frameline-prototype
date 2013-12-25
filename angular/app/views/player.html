@@ -3,6 +3,9 @@
 </div>
 <div ng-model="errors"></div>
 <div class="well">
+    <ul class="errorMessage">
+        <li ng-repeat="message in errorLog">{{message}}</li>
+    </ul>
     <textarea cols="105" rows="10" ng-model="script.text"></textarea>
     <br><br>
     <input class="btn" type="button" ng-click="playScript(script.text)" value="Parse Script" />

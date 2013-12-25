@@ -46,7 +46,7 @@ scriptService.service('script', [
           return commands;
         } catch (e) {
           errorMessage = 'Can\'t parse text script.';
-          console.log(errorMessage);
+          this.log(errorMessage + ': ' + e.message, true);
           throw new Error(errorMessage);
         }
       },
@@ -66,7 +66,7 @@ scriptService.service('script', [
           return commands;
         } catch (e) {
           errorMessage = 'Can\'t parse JSON script.';
-          console.log(errorMessage);
+          this.log(errorMessage + ': ' + e.message, true);
           throw new Error(errorMessage);
         }
       },
@@ -100,19 +100,22 @@ scriptService.service('script', [
         var startScript = playingCommands.shift();
         if (!startScript ) {
           errorMessage = 'Can\'t recognize the first command in the sequence';
-          console.log(errorMessage);
+          this.log(errorMessage, true);
           throw new Error(errorMessage);
         }
         if ('startScript' !== Object.keys(startScript.command).shift()) {
           errorMessage = 'Expected a "startScript" command in the beginning, instead, ' +
             Object.keys(startScript.command).shift() + ' is detected';
-          console.log(errorMessage);
+          this.log(errorMessage, true);
           throw new Error(errorMessage);
         }
 
         //put a script reference into the closure var script
         script = this;
 
+        //clear the message and the error log
+        this.resetLog(false);
+        this.resetLog(true);
 
         //load video using the startScript command
         controls.startScript(startScript.command.startScript.args);
@@ -165,9 +168,11 @@ scriptService.service('script', [
         if (schedule < 0) {
           schedule = 0;
         }
-        script.log('At ' + (now - time) / 1000 + ': scheduling '+ Object.keys(command.command).shift() + ' ' +
-         'schedule: ' + schedule +
-          ', current: ' + statusData.currentTime + ', offset: ' + command.offset);
+        script.log(
+          'At ' + (now - time) / 1000 + ': scheduling '+ Object.keys(command.command).shift() + ' ' +
+         'schedule: ' + schedule + ', current: ' + statusData.currentTime + ', offset: ' + command.offset,
+          false
+        );
         /**
          * @see http://stackoverflow.com/questions/6425062/passing-functions-to-settimeout-in-a-loop-always-the-last-value
          */
@@ -190,12 +195,13 @@ scriptService.service('script', [
           commandName = Object.keys(command).shift();
         script.log(
           'At ' + ((now - time) / 1000) + ': executing ' +
-          commandName + ' ' + JSON.stringify(command[commandName].args)
+          commandName + ' ' + JSON.stringify(command[commandName].args),
+          false
         );
 
         if (commandName === 'setAnchor') {
           anchor = new Date().getTime();
-          script.log('Setting anchor to ' + anchor / 1000);
+          script.log('Setting anchor to ' + anchor / 1000, false);
         } else {
           controls[commandName](command[commandName].args);
         }
@@ -206,13 +212,44 @@ scriptService.service('script', [
        * Logs messages
        *
        * @param message
+       * @param error error log flag
        */
-      log: function (message) {
-        if (scope && scope.commandLog && scope.$apply) {
-          scope.commandLog.push(message);
-          scope.$apply();
+      log: function (message, error) {
+        if (scope && scope.$apply) {
+          if (error && scope.errorLog) {
+            scope.errorLog.push(message);
+          } else if (scope.commandLog) {
+            scope.commandLog.push(message);
+          }
+          try {
+            scope.$apply();
+          } catch (e) {
+            console.log(e.message);
+          }
+
         }
         console.log(message);
+      },
+
+      /**
+       * Clears the log
+       *
+       * @param error flag to clear the error log
+       */
+      resetLog: function (error) {
+        if (scope && scope.$apply) {
+          if (error && scope.errorLog) {
+            scope.errorLog.length = 0;
+          } else if (scope.commandLog) {
+            scope.commandLog.length = 0;
+          }
+          try {
+            scope.$apply();
+          } catch (e) {
+            console.log(e.message);
+          }
+
+        }
       },
 
       /**
