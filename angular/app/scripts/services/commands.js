@@ -78,7 +78,7 @@ commandsDictionaryService.service('commandsDictionary',
           }
         }
         if (result === false) {
-          throw 'Command is not available: ' + commandName;
+          throw new Error('Command is not available: ' + commandName);
         }
         //arguments of the validated command
         commandArgs = Object.keys(command[commandName].args);
@@ -96,9 +96,11 @@ commandsDictionaryService.service('commandsDictionary',
           } else {
             //check the value
             if (!arg.regex.test(command[commandName].args[argsCheck[i]])) {
-              throw 'The argument value is incorrect. Command: ' + commandName +
+              throw new Error(
+                'The argument value is incorrect. Command: ' + commandName +
                 ', argument:  ' + argsCheck[i] + ', value: ' + command[commandName].args[argsCheck[i]] +
-                ', regex: ' + arg.regex;
+                ', regex: ' + arg.regex
+              );
             }
           }
         }
