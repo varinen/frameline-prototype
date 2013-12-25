@@ -24,6 +24,8 @@ angular.module('angularApp').controller(
 
       $scope.playScript = function(text) {
         var commands = script.parseText(text);
+        $scope.commandLog = [];
+        script.setScope($scope);
         $scope.script.result = JSON.stringify(commands);
         script.play(playerElementId);
       };
