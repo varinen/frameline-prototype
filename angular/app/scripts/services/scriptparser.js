@@ -92,7 +92,7 @@ scriptParserService.factory('ScriptParser',
               if (commands.length === 0 && commandName !== 'startScript') {
                 var startMissing = 'The first command in the script must be "startScript", instead, ' + commandName + ' was detected';
                 console.log(startMissing);
-                throw startMissing;
+                throw new Error(startMissing);
               }
               if (result[3]) {
                 try {
@@ -108,7 +108,7 @@ scriptParserService.factory('ScriptParser',
                 command = commandsDictionary.validateCommand(command);
                 commands.push({'offset': offset, 'command': command});
               } catch (e) {
-                console.log(e);
+                console.log(e.message);
                 throw (e);
               }
             }
@@ -132,7 +132,7 @@ scriptParserService.factory('ScriptParser',
               if (argMatches && argMatches[1] && argMatches[2]) {
                 results[argMatches[1]] = argMatches[2];
               } else {
-                throw 'Invalid argument: ' + args[i];
+                throw new Error('Invalid argument: ' + args[i]);
               }
             }
             return results;
@@ -146,14 +146,14 @@ scriptParserService.factory('ScriptParser',
               try {
                 if (this.isNumber(json[i].offset) !== true) {
                   j = 1 + i;
-                  throw 'Undefined offset in command number ' + j;
+                  throw new Error('Undefined offset in command number ' + j);
                 }
                 command     = commandsDictionary.validateCommand(json[i].command);
                 commandName = Object.keys(json[i].command).shift();
                 if (commands.length === 0 && commandName !== 'startScript') {
                   var startMissing = 'The first command in the script must be "startScript", instead, ' + commandName + ' was detected';
                   console.log(startMissing);
-                  throw startMissing;
+                  throw new Error(startMissing);
                 }
                 commands.push({'offset': json[i].offset, 'command': command});
               } catch (e) {
