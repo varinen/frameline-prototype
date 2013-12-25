@@ -15,11 +15,11 @@ scriptService.service('script', [
       controlsFactory = PlayerControls,
       controls,
       anchor = 0,
-      offset,
       time,
       playingCommands,
       isPlaying,
       statusData,
+      scope,
       script = this;
 
     return {
@@ -47,8 +47,8 @@ scriptService.service('script', [
         } catch (e) {
           errorMessage = 'Can\'t parse text script.';
           console.log(errorMessage);
+          throw new Error(errorMessage);
         }
-        return false;
       },
 
       /**
@@ -67,8 +67,8 @@ scriptService.service('script', [
         } catch (e) {
           errorMessage = 'Can\'t parse JSON script.';
           console.log(errorMessage);
+          throw new Error(errorMessage);
         }
-        return false;
       },
       /**
        * Returns the commands array
@@ -86,7 +86,8 @@ scriptService.service('script', [
        */
       play: function (playerElementId) {
         var errorMessage;
-        
+
+        //commandLog = [];
         //set starting time
         time      = new Date().getTime();
         //it's not playing yet
@@ -97,11 +98,16 @@ scriptService.service('script', [
         playingCommands = commands.slice(0);
         //start script - must be the first command in the sequence
         var startScript = playingCommands.shift();
+        if (!startScript ) {
+          errorMessage = 'Can\'t recognize the first command in the sequence';
+          console.log(errorMessage);
+          throw new Error(errorMessage);
+        }
         if ('startScript' !== Object.keys(startScript.command).shift()) {
           errorMessage = 'Expected a "startScript" command in the beginning, instead, ' +
             Object.keys(startScript.command).shift() + ' is detected';
           console.log(errorMessage);
-          throw (errorMessage);
+          throw new Error(errorMessage);
         }
 
         //put a script reference into the closure var script
@@ -159,7 +165,7 @@ scriptService.service('script', [
         if (schedule < 0) {
           schedule = 0;
         }
-        console.log((now - time) / 1000 + ': scheduling '+ Object.keys(command.command).shift() + ' ' +
+        script.log('At ' + (now - time) / 1000 + ': scheduling '+ Object.keys(command.command).shift() + ' ' +
          'schedule: ' + schedule +
           ', current: ' + statusData.currentTime + ', offset: ' + command.offset);
         /**
@@ -182,15 +188,40 @@ scriptService.service('script', [
       executeCommand: function(command) {
         var now = new Date().getTime(),
           commandName = Object.keys(command).shift();
-        console.log('executing ' + ((now - time) / 1000) + ' '+ commandName + ' ' + JSON.stringify(command[commandName].args));
+        script.log(
+          'At ' + ((now - time) / 1000) + ': executing ' +
+          commandName + ' ' + JSON.stringify(command[commandName].args)
+        );
 
         if (commandName === 'setAnchor') {
           anchor = new Date().getTime();
-          console.log('Setting anchor to ' + anchor / 1000);
+          script.log('Setting anchor to ' + anchor / 1000);
         } else {
           controls[commandName](command[commandName].args);
         }
         script.scheduleCommand(statusData);
+      },
+
+      /**
+       * Logs messages
+       *
+       * @param message
+       */
+      log: function (message) {
+        if (scope && scope.commandLog && scope.$apply) {
+          scope.commandLog.push(message);
+          scope.$apply();
+        }
+        console.log(message);
+      },
+
+      /**
+       * Sets the external scope to script
+       *
+       * @param externalScope
+       */
+      setScope: function (externalScope) {
+        scope = externalScope;
       }
     };
   }
