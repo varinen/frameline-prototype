@@ -34,7 +34,7 @@ playerControlsService.factory('PlayerControls',
               for (i = 0; i < listeners.length; i += 1) {
                 listeners[i](statusData);
               }
-              console.log(statusData);
+              //console.log(statusData);
             }
           },
           startScript: function(args) {
