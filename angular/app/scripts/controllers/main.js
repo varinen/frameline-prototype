@@ -3,7 +3,11 @@ var callPlayer;
 
 angular.module('angularApp').controller(
   'MainCtrl',
-  ['$scope', 'Player', 'PlayerControls', 'ScriptParser', function ($scope, Player, PlayerControls, ScriptParser) {
+  ['$scope',
+    'Player',
+    'PlayerControls',
+    'script',
+    function ($scope, Player, PlayerControls, script) {
 
     var playerElementId = 'player';
 
@@ -34,9 +38,6 @@ angular.module('angularApp').controller(
     $scope.playerControlFactory = PlayerControls;
     $scope.playerControls = $scope.playerControlFactory().getControls(callPlayer, playerElementId);
     $scope.playerControls.startListening();
-
-    $scope.parserFactory = ScriptParser;
-    $scope.parser = $scope.parserFactory();
 
     $scope.togglePause = function() {
       var statusData = $scope.playerControls.getStatusData();
@@ -104,16 +105,16 @@ angular.module('angularApp').controller(
     };
     $scope.selectQuality = function(quality) {
       $scope.loadVideo.quality = getKeyByValue($scope.videoQualities, quality);
-      var statusData = $scope.playerControls.getStatusData();
+     // var statusData = $scope.playerControls.getStatusData();
       //$scope.loadVideo.id = statusData.videoData['video_id'];
       //$scope.playerControls.loadVideoById($scope.loadVideo);
       $scope.playerControls.setPlaybackQuality($scope.loadVideo.quality);
     };
-    var volumeStatus = $scope.volumeStatus;
+   // var volumeStatus = $scope.volumeStatus;
 
     var satusListener = function(statusData) {
       $scope.volumeStatus.volume = statusData.volume;
-     if ($scope.volumeStatus.volume <= 0) {
+      if ($scope.volumeStatus.volume <= 0) {
         $scope.volumeStatus.muteLabel = 'Unmute';
       } else {
         $scope.volumeStatus.muteLabel = 'Mute';
@@ -123,14 +124,14 @@ angular.module('angularApp').controller(
       $scope.duration = statusData.duration;
 
       $scope.$apply();
-    }
+    };
     //watch for volume / mute
     $scope.playerControls.addListener(satusListener);
 
     $scope.parseScript = function(text) {
-      $scope.parser.setScriptText(text);
-      $scope.script.result = $scope.parser.parse(text);
-    }
+      $scope.script.result = JSON.stringify(script.parseJson(text));
+      console.log($scope.script.result);
+    };
   }
 
   ]
