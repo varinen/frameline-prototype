@@ -1,0 +1,32 @@
+offset 0 startScript {id:JtbDDqU3dVI, startSecond: 0, width:640, height: 480, quality: default};
+offset 10 setVolume {volume:100};
+offset 20 setAnchor;
+offset 10 setVolume {volume:0};
+offset 20 setVolume {volume:10};
+offset 30.5 seekTo {position:10.5};
+offset 49 loadVideo {id:sdv_TbmA3CM, quality: default};
+offset 100 seekTo {position:90};
+offset 120 stop;
+
+
+[{"startScript":{"args":[]}},{"setVolume":{"args":[]}},{"setAnchor":{"args":{}}},{"setVolume":{"args":[]}},{"setVolume":{"args":[]}},{"seekTo":{"args":[]}},{"loadVideo":{"args":[]}},{"seekTo":{"args":[]}},{"stop":{"args":{}}}]
+
+
+[{"offset":"0","command":{"startScript":{"args":{"id":"JtbDDqU3dVI","startSecond":"0","width":"640","height":"480","quality":"default","dimension":"640x390"}}}},{"offset":"10","command":{"setVolume":{"args":{"volume":"100"}}}},{"offset":"20","command":{"setAnchor":{"args":{}}}},{"offset":"10","command":{"setVolume":{"args":{"volume":"0"}}}},{"offset":"20","command":{"setVolume":{"args":{"volume":"10"}}}},{"offset":"30.5","command":{"seekTo":{"args":{"position":"10"}}}},{"offset":"49","command":{"loadVideo":{"args":{"id":"sdv_TbmA3CM","quality":"default"}}}},{"offset":"10","command":{"seekTo":{"args":{"position":"90"}}}},{"offset":"120","command":{"stop":{"args":{}}}}]
+
+
+[{"offset":"0","command":{"startScript":{"args":{"id":"JtbDDqU3dVI","startSecond":"0","width":"640","height":"480","quality":"default","dimension":"640x390"}}}},{"offset":"10","command":{"setVolume":{"args":{"volume":"100"}}}},{"offset":"20","command":{"setAnchor":{"args":{}}}},{"offset":"10","command":{"setVolume":{"args":{"volume":"0"}}}},{"offset":"20","command":{"setVolume":{"args":{"volume":"10"}}}},{"offset":"30.5","command":{"seekTo":{"args":{"position":"10"}}}},{"offset":"49","command":{"loadVideo":{"args":{"id":"sdv_TbmA3CM","quality":"default"}}}},{"offset":"10","command":{"seekTo":{"args":{"position":"90"}}}},{"offset":"120","command":{"stop":{"args":{}}}}]
+
+
+offset 0 startScript {id:JtbDDqU3dVI, startSecond: 0, width:640, height: 480, quality: default};
+offset 1 setVolume {volume:100};
+offset 2 setAnchor;
+offset 1 setVolume {volume:0};
+offset 2 setVolume {volume:10};
+offset 3.5 seekTo {position:10.5};
+offset 4 loadVideo {id:sdv_TbmA3CM, quality: default};
+offset 5 seekTo {position:90};
+offset 6 stop;
+
+offset 0 startScript {id:JtbDDqU3dVI, startSecond: 0, width:640, height: 480, quality: default};
+offset 0 stop;
