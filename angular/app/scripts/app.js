@@ -10,7 +10,9 @@ angular.module('angularApp', [
   'playerControlsService',
   'scriptParserService',
   'commandsDictionaryService',
-  'scriptService'
+  'scriptService',
+  'editorCommands',
+  'storageService'
 ])
   .config(function ($routeProvider) {
     $routeProvider
