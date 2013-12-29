@@ -1,0 +1,37 @@
+[
+  {
+    "offset": "0",
+    "command": {
+      "startScript": {
+        "args": {
+          "id": "JtbDDqU3dVI",
+          "startSecond": "0",
+          "width": "640",
+          "height": "480",
+          "quality": "default",
+          "dimension": "640x390"
+        }
+      }
+    }
+  },
+  {
+    "offset": "10",
+    "command": {
+      "setVolume": {
+        "args": {
+          "volume": "100"
+        }
+      }
+    }
+  },
+  {
+    "offset": "20",
+    "command": {
+      "setVolume": {
+        "args": {
+          "volume": "50"
+        }
+      }
+    }
+  }
+]

@@ -1,0 +1,94 @@
+[
+  {
+    "offset": "0",
+    "command": {
+      "startScript": {
+        "args": {
+          "id": "JtbDDqU3dVI",
+          "startSecond": "0",
+          "width": "640",
+          "height": "480",
+          "quality": "default",
+          "dimension": "640x390"
+        }
+      }
+    }
+  },
+  {
+    "offset": "10",
+    "command": {
+      "setVolume": {
+        "args": {
+          "volume": "100"
+        }
+      }
+    }
+  },
+  {
+    "offset": "20",
+    "command": {
+      "setAnchor": {
+        "args": {}
+      }
+    }
+  },
+  {
+    "offset": "10",
+    "command": {
+      "setVolume": {
+        "args": {
+          "volume": "0"
+        }
+      }
+    }
+  },
+  {
+    "offset": "20",
+    "command": {
+      "setVolume": {
+        "args": {
+          "volume": "10"
+        }
+      }
+    }
+  },
+  {
+    "offset": "30.5",
+    "command": {
+      "seekTo": {
+        "args": {
+          "position": "10"
+        }
+      }
+    }
+  },
+  {
+    "offset": "49",
+    "command": {
+      "loadVideo": {
+        "args": {
+          "id": "sdv_TbmA3CM",
+          "quality": "default"
+        }
+      }
+    }
+  },
+  {
+    "offset": "10",
+    "command": {
+      "seekTo": {
+        "args": {
+          "position": "90"
+        }
+      }
+    }
+  },
+  {
+    "offset": "120",
+    "command": {
+      "stop": {
+        "args": {}
+      }
+    }
+  }
+]
