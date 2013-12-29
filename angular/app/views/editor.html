@@ -1,2 +1,26 @@
+<div class="well">
+    <ul class="errorMessage">
+        <li ng-repeat="message in errorLog">{{message}}</li>
+    </ul>
+</div>
+<ul>
+    <li>
+        <a href="#">Create a new script</a>
+    </li>
+    <li ng-repeat="script in storedScripts">
+        <button ng-click="editScript(script.filename)">edit</button> {{script.filename}}
+    </li>
+</ul>
+<div class="well">
+    <ul class="nav nav-pills pull-left commandsMenu">
+        <li ng-repeat="command in commandsMenu">
+            <a href="javascript:void(0)" ng-click="addCommand(command.name)">+ {{command.name}}</a>
+        </li>
+    </ul>
+    <div style="clear:both"></div>
+</div>
+<div class="well" id="editor"></div>
 <div id="player"></div>
+
+
 
