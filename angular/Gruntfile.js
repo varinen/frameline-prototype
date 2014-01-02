@@ -256,147 +256,147 @@ module.exports = function (grunt) {
 
     // Allow the use of non-minsafe AngularJS files. Automatically makes it
     // minsafe compatible so Uglify does not destroy the ng references
-    ngmin: {
-        dist: {
-          files: [{
-            expand: true,
-            cwd: '.tmp/concat/scripts',
-            src: '*.js',
-            dest: '.tmp/concat/scripts'
-          }]
-        }
-      },
+      ngmin: {
+          dist: {
+            files: [{
+              expand: true,
+              cwd: '.tmp/concat/scripts',
+              src: '*.js',
+              dest: '.tmp/concat/scripts'
+            }]
+          }
+        },
 
     // Replace Google CDN references
-    cdnify: {
-      dist: {
-        html: ['<%= yeoman.dist %>/*.html']
-      }
-    },
+        cdnify: {
+          dist: {
+            html: ['<%= yeoman.dist %>/*.html']
+          }
+        },
 
     // Copies remaining files to places other tasks can use
-    copy: {
-      dist: {
-        files: [{
-          expand: true,
-          dot: true,
-          cwd: '<%= yeoman.app %>',
-          dest: '<%= yeoman.dist %>',
-          src: [
-            '*.{ico,png,txt}',
-            '.htaccess',
-            'bower_components/**/*',
-            'images/{,*/}*.{webp}',
-            'fonts/*'
-          ]
-        }, {
-          expand: true,
-          cwd: '.tmp/images',
-          dest: '<%= yeoman.dist %>/images',
-          src: [
-            'generated/*'
-          ]
-        }]
-      },
-      styles: {
-        expand: true,
-        cwd: '<%= yeoman.app %>/styles',
-        dest: '.tmp/styles/',
-        src: '{,*/}*.css'
-      }
-    },
+        copy: {
+          dist: {
+            files: [{
+              expand: true,
+              dot: true,
+              cwd: '<%= yeoman.app %>',
+              dest: '<%= yeoman.dist %>',
+              src: [
+                '*.{ico,png,txt}',
+                '.htaccess',
+                'bower_components/**/*',
+                'images/{,*/}*.{webp}',
+                'fonts/*'
+              ]
+            }, {
+              expand: true,
+              cwd: '.tmp/images',
+              dest: '<%= yeoman.dist %>/images',
+              src: [
+                'generated/*'
+              ]
+            }]
+          },
+          styles: {
+            expand: true,
+            cwd: '<%= yeoman.app %>/styles',
+            dest: '.tmp/styles/',
+            src: '{,*/}*.css'
+          }
+        },
 
     // Run some tasks in parallel to speed up the build process
-    concurrent: {
-      server: [
-        'compass:server',
-        'copy:styles'
-      ],
-      test: [
-        'compass',
-        'copy:styles'
-      ],
-      dist: [
-        'compass:dist',
-        'copy:styles',
-        'imagemin',
-        'svgmin',
-        'htmlmin'
-      ]
-    },
-    secret: grunt.file.readJSON('secret.json'),
-    sshconfig: {
-        production: {
-            host: '<%= secret.host %>',
-            username: '<%= secret.username %>',
-            password: '<%= secret.password %>',
-            port: 22,
-            path: '/var/www/frameline.divisionlab.com/current/'
-          }
-
+        concurrent: {
+          server: [
+            'compass:server',
+            'copy:styles'
+          ],
+          test: [
+            'compass',
+            'copy:styles'
+          ],
+          dist: [
+            'compass:dist',
+            'copy:styles',
+            'imagemin',
+            'svgmin',
+            'htmlmin'
+          ]
         },
-        sshexec: {
-          'make-release-dir': {
-            command: 'mkdir -m 777 -p /var/www/frameline.divisionlab.com/releases/' + dirname + '/logs',
-            options: {
-                config: 'production'
+        secret: grunt.file.readJSON('secret.json'),
+        sshconfig: {
+            production: {
+                host: '<%= secret.host %>',
+                username: '<%= secret.username %>',
+                password: '<%= secret.password %>',
+                port: 22,
+                path: '/var/www/frameline.divisionlab.com/current/'
               }
+
             },
-            'update-symlinks': {
-              command: 'rm -rf /var/www/frameline.divisionlab.com/current && ln -s /var/www/frameline.divisionlab.com/releases/' + dirname + ' /var/www/frameline.divisionlab.com/current',
-              options: {
-                config: 'production'
-              }
-            }
-          },
-
-    // our sftp file copy config
-          sftp: {
-            deploy: {
-              files: {
-                './': 'dist/**'
+            sshexec: {
+              'make-release-dir': {
+                command: 'mkdir -m 777 -p /var/www/frameline.divisionlab.com/releases/' + dirname + '/logs',
+                options: {
+                    config: 'production'
+                  }
+                },
+                'update-symlinks': {
+                  command: 'rm -rf /var/www/frameline.divisionlab.com/current && ln -s /var/www/frameline.divisionlab.com/releases/' + dirname + ' /var/www/frameline.divisionlab.com/current',
+                  options: {
+                    config: 'production'
+                  }
+                }
               },
-              options: {
-                config: 'production',
-                srcBasePath: 'dist/',
-                createDirectories: true
-              }
-            }
-          },
 
-    // By default, your `index.html`'s <!-- Usemin block --> will take care of
-    // minification. These next options are pre-configured if you do not wish
-    // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css',
-    //         '<%= yeoman.app %>/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
+        // our sftp file copy config
+              sftp: {
+                deploy: {
+                  files: {
+                    './': 'dist/**'
+                  },
+                  options: {
+                    config: 'production',
+                    srcBasePath: 'dist/',
+                    createDirectories: true
+                  }
+                }
+              },
+
+      // By default, your `index.html`'s <!-- Usemin block --> will take care of
+      // minification. These next options are pre-configured if you do not wish
+      // to use the Usemin blocks.
+      // cssmin: {
+      //   dist: {
+      //     files: {
+      //       '<%= yeoman.dist %>/styles/main.css': [
+      //         '.tmp/styles/{,*/}*.css',
+      //         '<%= yeoman.app %>/styles/{,*/}*.css'
+      //       ]
+      //     }
+      //   }
+      // },
+      // uglify: {
+      //   dist: {
+      //     files: {
+      //       '<%= yeoman.dist %>/scripts/scripts.js': [
+      //         '<%= yeoman.dist %>/scripts/scripts.js'
+      //       ]
+      //     }
+      //   }
+      // },
+      // concat: {
+      //   dist: {}
+      // },
 
     // Test settings
-          karma: {
-            unit: {
-              configFile: 'karma.conf.js',
-              singleRun: true
-            }
-          }
+              karma: {
+                unit: {
+                  configFile: 'karma.conf.js',
+                  singleRun: true
+                }
+              }
         });
 
 
