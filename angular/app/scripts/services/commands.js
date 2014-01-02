@@ -11,6 +11,19 @@ commandsDictionaryService.service('commandsDictionary',
       volumeRegex  = /(\d{1,2})/, //any 1 or 2 digit int number
       floatRegex   = /(\d+\.?\d*)/; //any float number
     return {
+      qualities: {
+        'default': 'auto',
+        'highres': '>1080p',
+        'hd1080' : '1080p',
+        'hd720'  : '720p',
+        'large'  : '480p',
+        'medium' : '380p',
+        'small'  : '240p'
+      },
+      dimensions: {
+        '640x390': '640x390',
+        '560x315': '560x315'
+      },
       /**
        * A collection of available commands and their arguments
        */
