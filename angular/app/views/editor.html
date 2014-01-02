@@ -2,6 +2,9 @@
     <ul class="errorMessage">
         <li ng-repeat="message in errorLog">{{message}}</li>
     </ul>
+    <ul class="message">
+        <li ng-repeat="message in messageLog">{{message}}</li>
+    </ul>
 </div>
 <ul>
     <li>
@@ -15,6 +18,14 @@
     <ul class="nav nav-pills pull-left commandsMenu">
         <li ng-repeat="command in commandsMenu">
             <a href="javascript:void(0)" ng-click="addCommand(command.name)">+ {{command.name}}</a>
+        </li>
+    </ul>
+    <div style="clear:both"></div>
+</div>
+<div class="well" id="menu" >
+    <ul class="nav nav-pills pull-left ">
+        <li>
+            <a href="javascript:void(0)" ng-click="save()">Save</a>
         </li>
     </ul>
     <div style="clear:both"></div>
