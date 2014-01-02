@@ -7,7 +7,11 @@ function($resource, $http) {
   $http.defaults.useXDomain = true;
   return $resource(
     'http://dev.frameline.dev/server/index.php?action=:action&filename=:filename',
-    {action:"@action", filename:"@filename"}
+    {
+      action:   '@action',
+      filename: '@filename',
+      data:     '@data'
+    }
   );
 }
 ]);
