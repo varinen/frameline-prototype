@@ -1,1 +1,32 @@
-<div><h2>start script</h2></div>
+<div class="commandDirective startScript">
+    <div><h2>Start Script</h2></div>
+    <label for="{{commandObject.commandKey}}_offset">Offset</label>
+        <input id="{{commandObject.commandKey}}_offset" type="number" ng-value="commandObject.offset" min="0" float /><br>
+    <label for="{{commandObject.commandKey}}_id">YouTube video ID</label>
+        <input id="{{commandObject.commandKey}}_id" type="text" ng-value="commandObject.command.startScript.args.id" /><br>
+    <label for="{{commandObject.commandKey}}_startSecond">Start second</label>
+        <input id="{{commandObject.commandKey}}_startSecond" type="number" ng-value="commandObject.command.startScript.args.startSecond" min="0" /><br>
+    <label for="{{commandObject.commandKey}}_dimension">Dimension</label>
+        <div class="dropdown btn">
+            <div class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#" >
+                <span>{{commandsDictionary.dimensions[commandObject.command.startScript.args.dimension]}}</span>
+                <b class="caret"></b>
+            </div>
+
+            <ul id="{{commandObject.commandKey}}_dimension" class="dropdown-menu pull-left" role="menu">
+                <li ng-repeat="dimension in commandsDictionary.dimensions" ng-click="setDropDownValue(dimension, 'dimension', commandObject)">{{dimension}}</li>
+            </ul>
+        </div>
+    <br>
+    <label for="{{commandObject.commandKey}}_qualities">Qualities</label>
+        <div class="dropdown btn">
+            <div id="qualities" class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#" >
+                <span>{{commandsDictionary.qualities[commandObject.command.startScript.args.quality]}}</span>
+                <b class="caret"></b>
+            </div>
+
+            <ul id="{{commandObject.commandKey}}_qualities" class="dropdown-menu pull-left" role="menu" aria-labelledby="dLabel">
+                <li ng-repeat="quality in commandsDictionary.qualities" ng-click="setDropDownValue(quality, 'quality', commandObject)">{{quality}}</li>
+            </ul>
+        </div>
+</div>
