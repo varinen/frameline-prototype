@@ -1,6 +1,13 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-$allowedActions = array('get_script', 'list_scripts');
+$allowedActions = array('get_script', 'list_scripts', 'save_script');
+
+if (isset($_REQUEST['action']) && in_array($_REQUEST['action'], $allowedActions)) {
+    switch ($_REQUEST['action']) {
+    case 'save_script':
+        return saveScript($_REQUEST['filename'], $_REQUEST['data']);
+    }
+}
+
 if (isset($_GET['action'] ) && in_array($_GET['action'], $allowedActions)) {
     switch ($_GET['action']) {
     case 'get_script': getScript();
@@ -9,6 +16,16 @@ if (isset($_GET['action'] ) && in_array($_GET['action'], $allowedActions)) {
     break;
     default: returnEmpty();   
     }
+}
+
+function saveScript($fileName, $data) {
+   $a = file_put_contents('storage/' . $fileName, $data);
+   if (!$a) {
+       header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+       die('Failed to save the data');
+   } else {
+       returnJson($a);
+   }
 }
 
 function returnEmpty() {
