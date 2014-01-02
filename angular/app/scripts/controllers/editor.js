@@ -16,6 +16,12 @@ angular.module('angularApp').controller(
       var commandNames = Object.keys(commandsDictionary.commands),
         playerElementId = 'player', i;
 
+      $scope.messageLog = [];
+      $scope.errorLog   = [];
+      //generate a list of the stored scripts
+      $scope.storedScripts      = ScriptList.query({action:'list_scripts'});
+      $scope.commandsDictionary = commandsDictionary;
+
       /**
        * @todo refactor to a service
        */
@@ -29,21 +35,48 @@ angular.module('angularApp').controller(
         }
       };
 
+      /**
+       * Saves the current state of the scope property commandList that represents the loaded script
+       */
+      $scope.save = function () {
+
+        ScriptList.save(
+          {
+            action:'save_script',
+            filename: $scope.fileName,
+            data: JSON.stringify($scope.commandList)
+          },
+          function () {
+            $scope.messageLog = [];
+            $scope.errorLog = [];
+            $scope.messageLog.push('Script saved');
+          },
+          function () {
+            $scope.messageLog = [];
+            $scope.errorLog = [];
+            $scope.errorLog.push('Failed to save the script');
+          }
+        );
+      };
+
+      /**
+       * Sets a drop-down value to the respective property of a commandObject
+       *
+       * @param valueToSet    value to be set
+       * @param propertyName  commandObject's property withing the args object
+       * @param commandObject command object reference
+       */
       $scope.setDropDownValue = function(valueToSet, propertyName, commandObject) {
         var value, commandName = Object.keys(commandObject.command).shift();
         switch (propertyName) {
-          case 'quality': value = getKeyByValue(commandsDictionary.qualities, valueToSet);
+          case 'quality':
+            value = getKeyByValue(commandsDictionary.qualities, valueToSet);
             break;
-          case 'dimension': value = getKeyByValue(commandsDictionary.dimensions, valueToSet);
+          case 'dimension':
+            value = getKeyByValue(commandsDictionary.dimensions, valueToSet);
         }
-        commandObject.command[commandName].args[propertyName] = value
-        //$scope.$apply();
-        var b = 1;
-      }
-
-      //generate a list of the stored scripts
-      $scope.storedScripts = ScriptList.query({action:'list_scripts'});
-      $scope.commandsDictionary = commandsDictionary;
+        commandObject.command[commandName].args[propertyName] = value;
+      };
 
       //generate and display the command menu
       $scope.commandsMenu = [];
@@ -57,14 +90,18 @@ angular.module('angularApp').controller(
         $scope.commandsMenu.push({'name' :commandNames[i]});
       }
 
-
       $scope.addCommand = function(commandName) {
         alert(commandName);
-      }
+      };
 
 
-
+      /**
+       * Loads a script and displays its commands in an editable form
+       *
+       * @param fileName name of the script
+       */
       $scope.editScript = function(fileName) {
+        $scope.fileName = fileName;
         angular.element('div#editor').html('');
         var i, scriptJson = ScriptList.query(
           {action:'get_script', filename:fileName},
@@ -73,6 +110,7 @@ angular.module('angularApp').controller(
             $scope.errorLog = [];
             $scope.commandList = [];
 
+            //transfer the scriptJson
             for (i = 0; i < scriptJson.length; i += 1) {
               if (scriptJson[i].hasOwnProperty('command') && scriptJson[i].hasOwnProperty('offset')) {
                 try {
@@ -105,7 +143,7 @@ angular.module('angularApp').controller(
               //the created directive's element is compiled into a dom object and appended to the editor
               var el = $compile( commandElement)(
                 $scope,
-                function (e1, $scope) { angular.element('div#editor').append(e1)}
+                function (e1, $scope) { angular.element('div#editor').append(e1);}
               );
 
             }
@@ -116,7 +154,7 @@ angular.module('angularApp').controller(
             $scope.errorLog.push('Cant\'t read script');
           }
         );
-      }
+      };
     }
   ]
 );
