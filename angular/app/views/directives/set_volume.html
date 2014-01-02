@@ -1,7 +1,7 @@
-<div class="commandDirective startScript">
-<h3>Set Volume</h3>
+<div class="commandDirective setVolume">
+<h3>{{commandObject.commandKey}}: Set Volume</h3>
 <label for="{{commandObject.commandKey}}_offset">Offset</label>
-    <input id="{{commandObject.commandKey}}_offset" type="number" ng-value="commandObject.offset" min="0" float /><br>
+    <input id="{{commandObject.commandKey}}_offset" type="number" ng-model="commandObject.offset" min="0" float /><br>
 <label for="{{commandObject.commandKey}}_volume">Volume</label>
-    <input id="{{commandObject.commandKey}}_volume" type="number" ng-value="commandObject.command.setVolume.args.volume" min="0" max="100" integer />
+    <input id="{{commandObject.commandKey}}_volume" type="number" ng-model="commandObject.command.setVolume.args.volume" min="0" max="100" integer />
 </div>

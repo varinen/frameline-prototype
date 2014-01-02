@@ -1,11 +1,11 @@
 <div class="commandDirective startScript">
-    <div><h2>Start Script</h2></div>
+    <div><h3>{{commandObject.commandKey}}: Start Script</h3></div>
     <label for="{{commandObject.commandKey}}_offset">Offset</label>
-        <input id="{{commandObject.commandKey}}_offset" type="number" ng-value="commandObject.offset" min="0" float /><br>
+        <input id="{{commandObject.commandKey}}_offset" type="text" ng-model="commandObject.offset" min="0" float /><br>
     <label for="{{commandObject.commandKey}}_id">YouTube video ID</label>
-        <input id="{{commandObject.commandKey}}_id" type="text" ng-value="commandObject.command.startScript.args.id" /><br>
+        <input id="{{commandObject.commandKey}}_id" type="text" ng-model="commandObject.command.startScript.args.id" /><br>
     <label for="{{commandObject.commandKey}}_startSecond">Start second</label>
-        <input id="{{commandObject.commandKey}}_startSecond" type="number" ng-value="commandObject.command.startScript.args.startSecond" min="0" /><br>
+        <input id="{{commandObject.commandKey}}_startSecond" type="number" ng-model="commandObject.command.startScript.args.startSecond" min="0" float /><br>
     <label for="{{commandObject.commandKey}}_dimension">Dimension</label>
         <div class="dropdown btn">
             <div class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#" >

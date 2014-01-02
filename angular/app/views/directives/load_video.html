@@ -1,0 +1,18 @@
+<div class="commandDirective loadVideo">
+    <div><h3>{{commandObject.commandKey}}: Load Video</h3></div>
+    <label for="{{commandObject.commandKey}}_offset">Offset</label>
+    <input id="{{commandObject.commandKey}}_offset" type="number" ng-model="commandObject.offset" min="0" float /><br>
+    <label for="{{commandObject.commandKey}}_id">YouTube video ID</label>
+    <input id="{{commandObject.commandKey}}_id" type="text" ng-model="commandObject.command.loadVideo.args.id" /><br>
+    <label for="{{commandObject.commandKey}}_qualities">Qualities</label>
+    <div class="dropdown btn">
+        <div id="qualities" class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#" >
+            <span>{{commandsDictionary.qualities[commandObject.command.loadVideo.args.quality]}}</span>
+            <b class="caret"></b>
+        </div>
+
+        <ul id="{{commandObject.commandKey}}_qualities" class="dropdown-menu pull-left" role="menu" aria-labelledby="dLabel">
+            <li ng-repeat="quality in commandsDictionary.qualities" ng-click="setDropDownValue(quality, 'quality', commandObject)">{{quality}}</li>
+        </ul>
+    </div>
+</div>

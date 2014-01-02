@@ -1,0 +1,7 @@
+<div class="commandDirective seekTo">
+    <h3>{{commandObject.commandKey}}: Seek To</h3>
+    <label for="{{commandObject.commandKey}}_offset">Offset</label>
+    <input id="{{commandObject.commandKey}}_offset" type="number" ng-model="commandObject.offset" min="0" float /><br>
+    <label for="{{commandObject.commandKey}}_position">Position (sec)</label>
+    <input id="{{commandObject.commandKey}}_position" type="number" ng-model="commandObject.command.seekTo.args.position" min="0" float />
+</div>
