@@ -28,6 +28,18 @@ angular.module('angularApp', [
         templateUrl: 'views/editor.html',
         controller: 'EditorCtrl'
       })
+      .when('/joker', {
+        templateUrl: 'views/player.html',
+        controller: 'JokerCtrl'
+      })
+      .when('/quotes', {
+        templateUrl: 'views/player.html',
+        controller: 'QuotesCtrl'
+      })
+      .when('/starwars', {
+        templateUrl: 'views/player.html',
+        controller: 'StarwarsCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

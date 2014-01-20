@@ -1,61 +1,22 @@
-<div id="player"></div>
-
-        <div class="controls">
-
-            <div class="well">
-                <span>Volume: {{volumeStatus.label}}</span>
-                <div class="btn-group">
-                    <button class="btn" ng-click="volumeDown()">Volume Down</button>
-                    <button class="btn" ng-click="toggleMute()">{{volumeStatus.muteLabel}}</button>
-                    <button class="btn" ng-click="volumeUp()">Volume Up</button>
-                </div>
-            </div>
-            <div class="well">
-                <button class="btn" ng-click="togglePause()">{{pauseState}}</button>
-                <button type="button" class="btn" ng-click="playerControls.stopVideo()">Stop</button>
-                <span>Update quality:</span>
-                <div class="dropdown btn">
-                    <div id="qualities" class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#" >
-                        <span>{{videoQualities[loadVideo.quality]}}</span>
-                        <b class="caret"></b>
-                    </div>
-
-                    <ul id="qualitiesUL" class="dropdown-menu pull-left" role="menu" aria-labelledby="dLabel">
-                        <li ng-repeat="videoQuality in videoQualities" ng-click="selectQuality(videoQuality)">{{videoQuality}}</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="well">
-                <span>Duration: {{duration}}</span>
-                <button class="btn" ng-click="seekTo(seekToSec)">Seek to</button>&nbsp;<input type="text" ng-model="seekToSec"> sec
-            </div>
-            <div class="well">
-                <span>Playback rate: {{currentRate}}</span>
-                <span>Set playback rate</span>
-                <div class="dropdown btn">
-                    <div id="playbackRates" class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#" >
-                        <span>{{currentRate}}</span>
-                        <b class="caret"></b>
-                    </div>
-
-                    <ul id="playbackRatesUL" class="dropdown-menu pull-left" role="menu" aria-labelledby="dLabel">
-                        <li ng-repeat="rate in playbackRates" ng-click="setPlaybackRate(rate)">{{rate}}</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="well">
-                <input type="button" class="btn" ng-click="playerControls.loadVideoById(loadVideo)" value="Load Video" />&nbsp;
-                <input type="text" ng-model="loadVideo.id" />
-            </div>
-
-            <div class="well">
-                <textarea ng-model="script.text"></textarea>
-                <br>
-                <input class="btn" type="button" ng-click="parseScript(script.text)" value="Parse Script" />
-                <textarea ng-model="script.result"></textarea>
-            </div>
-
-
-
-
-        </div>
+<h1>Frameline Youtube</h1>
+ <div class="well presentationWrapper">
+     <div class="presButton">
+         <h3>Best Movie Quotes</h3>
+         <ul class="nav nav-pills" style="margin-left: 64px">
+             <li><a ng-href="#/quotes">Watch</a></li>
+         </ul>
+     </div>
+     <div class="presButton">
+         <h3>Best Joker Scenes</h3>
+         <ul class="nav nav-pills" style="margin-left: 64px">
+             <li><a ng-href="#/joker">Watch</a></li>
+         </ul>
+     </div>
+     <div class="presButton">
+         <h3>Star Wars In 2 Min</h3>
+         <ul class="nav nav-pills" style="margin-left: 64px">
+             <li><a ng-href="#/starwars">Watch</a></li>
+         </ul>
+     </div>
+     <div style="clear: both;"></div>
+ </div>
