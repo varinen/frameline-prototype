@@ -1,0 +1,10 @@
+offset 0 startScript {id:SeldwfOwuL8, startSecond: 12, width:640, height: 480, quality: default};
+offset 4.5 loadVideo {id:GQ5ICXMC4xY, startSecond: 10, quality: default};
+offset 9 loadVideo {id:kAmsi05P9Uw, startSecond: 80, quality: default};
+offset 12 loadVideo {id:ZSNyiSetZ8Y, startSecond: 31, quality: default};
+offset 16 loadVideo {id:220l5e0My-Q, startSecond: 72, quality: default};
+offset 20 loadVideo {id:iu92GxXf1X8, startSecond: 53, quality: default};
+offset 23 loadVideo {id:i2lmFCqbJcI, startSecond: 0, quality: default};
+offset 29 loadVideo {id:3ishbTwXf1g, startSecond: 137, quality: default};
+offset 39 seekTo {position:200};
+offset 44 stop;

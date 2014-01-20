@@ -1,0 +1,23 @@
+offset 0 startScript {id:367FSjWvNB4, startSecond: 0, width:640, height: 480, quality: highres};
+offset 0.5 seekTo {position: 25};
+offset 7 seekTo {position: 90};
+offset 10 loadVideo {id:MftSEu4vgg0, startSecond:17, quality: default};
+offset 14 setVolume {volume:10};
+offset 15 loadVideo {id:ts6Y-3FVhSc, startSecond:0, quality: highres};
+offset 15.5 seekTo {position: 30};
+offset 21 loadVideo {id:DIzAaY2Jm-s, startSecond:6, quality: default};
+offset 22 setVolume {volume:50};
+offset 26 seekTo {position:38};
+offset 34 seekTo {position:202};
+offset 47 loadVideo {id:qBAZGtBfcY4, startSecond:5, quality: default};
+offset 54 seekTo {position: 78};
+offset 57 loadVideo {id:bosSsgzgenA, startSecond:0, quality: default};
+offset 69 loadVideo {id:jsNv6c6chBA, startSecond:12, quality: default};
+offset 72.5 loadVideo {id:PlMWYYzVngM, startSecond:107, quality: default};
+offset 78 loadVideo {id:7U3Oti2L8S4, startSecond:62, quality: default};
+offset 82 seekTo {position:360};
+offset 90 loadVideo {id:220l5e0My-Q, startSecond:72, quality: default};
+offset 103 seekTo {position: 157};
+offset 107 seekTo {position:170};
+
+

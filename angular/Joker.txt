@@ -1,0 +1,7 @@
+offset 0 startScript {id:5K3E5tLoado, startSecond: 11.5, width:640, height: 480, quality: default};
+offset 4 seekTo {position: 18};
+offset 18 seekTo {position: 118.8};
+offset 21.5 seekTo {position: 153};
+offset 25 loadVideo {id:DgzssDOTMXs, startSecond: 41, quality: default};
+offset 29 loadVideo {id:jrIc1SlA7O8, startSecond: 35, quality: default};
+offset 34 stop;
