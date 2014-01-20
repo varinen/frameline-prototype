@@ -5,7 +5,7 @@ var commandsDictionaryService = angular.module('commandsDictionaryService', []);
 commandsDictionaryService.service('commandsDictionary',
   function() {
     var dimensionRegex = /(640x390|560x315)/, //one of the available dimensions
-      idRegex      = /(\w+)/, //any alphanumeric and underline
+      idRegex      = /([\w\-]+)/, //any alphanumeric and underline
     // digitRegex   = /(\d+)/, //any digit
       qualityRegex = /(default|highres|hd1080|hd720|large|medium|small)/, //any of the qualities
       volumeRegex  = /(\d{1,2})/, //any 1 or 2 digit int number

@@ -10,9 +10,9 @@ scriptParserService.factory('ScriptParser',
         scriptJson,
         scriptResult,
         //regex to check command names
-        commReg = /^(?:\s+([0-9.]+)\s+)(?:([A-Za-z]+))(?:\s+\{([\w,\s\.:]+)\})?;\s*$/,
+        commReg = /^(?:\s+([0-9.]+)\s+)(?:([A-Za-z]+))(?:\s+\{([\w,\-\s\.:]+)\})?;\s*$/,
         //regex to check argument names
-        argReg = /(?:\s*(\w+):\s*(\w+)\s*)/,
+        argReg = /(?:\s*(\w+):\s*([\w\-]+)\s*)/,
         commands = [];
       return function() {
         return {
