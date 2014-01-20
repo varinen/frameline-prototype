@@ -79,7 +79,7 @@ playerControlsService.factory('PlayerControls',
               'loadVideoById',
               [
                 loadVideoArgs.id,
-                loadVideoArgs.startSeconds || 0 ,
+                loadVideoArgs.startSecond || 0 ,
                 loadVideoArgs.quality || 'default'
               ]
             );

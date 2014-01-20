@@ -63,6 +63,7 @@ commandsDictionaryService.service('commandsDictionary',
         'loadVideo': {
           'args': {
             'id':  {'required': true, 'regex': idRegex, 'default': ''},
+            'startSecond': {'required': false, 'regex': floatRegex},
             'quality': {'required': true, 'regex': qualityRegex, 'default': 'default'}
           }
         }
