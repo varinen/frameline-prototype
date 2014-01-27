@@ -40,6 +40,7 @@ angular.module('angularApp').controller(
        */
       $scope.save = function () {
 
+        var a = 1;
         ScriptList.save(
           {
             action:'save_script',
@@ -108,8 +109,8 @@ angular.module('angularApp').controller(
           function () {
             $scope.commandLog = [];
             $scope.errorLog = [];
-            $scope.commandList = [];
-
+            $scope.commandList = scriptJson;
+/*
             //transfer the scriptJson
             for (i = 0; i < scriptJson.length; i += 1) {
               if (scriptJson[i].hasOwnProperty('command') && scriptJson[i].hasOwnProperty('offset')) {
@@ -122,7 +123,7 @@ angular.module('angularApp').controller(
                   return false;
                 }
               }
-            }
+            } */
             //an independent reference to the original command list keys is needed
             var commandKeys = Object.keys($scope.commandList);
             for (i = 0; i < commandKeys.length; i += 1) {
