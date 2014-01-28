@@ -1,4 +1,8 @@
 <h1>{{heading}}</h1>
+        <div style="margin: 10px">
+            <input class="btn" type="button" ng-click="playScript(script.text)" value="Play Script" /><br>
+        </div>
+
 <div style="text-align: center">
     <div id="player"></div>
 </div>
@@ -7,9 +11,12 @@
     <ul class="errorMessage">
         <li ng-repeat="message in errorLog">{{message}}</li>
     </ul>
+    <div style="margin: 10px">
+        <input class="btn" type="button" ng-click="playScript(script.text)" value="Play Script" /><br>
+    </div>
     <textarea cols="105" rows="10" ng-model="script.text"></textarea>
     <br><br>
-    <input class="btn" type="button" ng-click="playScript(script.text)" value="Play Script" />
+
 </div>
 <div class="well">
     <h4>Log:</h4>
